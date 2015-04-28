@@ -1,0 +1,13 @@
+{"logPath": "O:\\BWAV_FIX\\DATA",
+"dataBasePath": "O:\\BWAV_FIX\\DATA",
+"emailRecipients":["bwfanalyzer@gmail.com", "mediaMQM@nbcuni.com", "john.edell@nbcuni.com"],
+"serviceErrorRecipients":["patrickcusack@mac.com","mediaMQM@nbcuni.com"],
+"smtpServer":"mailrelay.nbcuni.ge.com",
+"pathStructure":[
+  {"inBox":"O:\\BWAV_FIX\\INBOX", 
+  "outBox":"O:\\BWAV_FIX\\OUTBOX",
+  "errorBox":"O:\\BWAV_FIX\\ERRORBOX",
+  "failBox":"O:\\BWAV_FIX\\FAILBOX", 
+  "workingBox":"O:\\BWAV_FIX\\WORKING",
+  "name":"BWFPath"}
+]}

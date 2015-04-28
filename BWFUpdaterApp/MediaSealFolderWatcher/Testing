@@ -1,0 +1,33 @@
+Restore a file that is not encrypted
+	! Are we getting the correct checksum 
+	O Thumbs.db
+	- Test Thumbs.db
+	- clean up folder if files fail
+	! case insensitive checksum comparison
+	- need multipaths for the different ops as I am concerned that decrypts will fail
+
+	Fixed the checksum issue as the checksums were delivered as upper case, mine were lower case
+	ignoring Thumbs.db - must check
+	files that do not have the proper checksum are pushed to the error box aswell as the original, ask Julian about this behavior.
+
+	! single file dropped into audio ops
+	! single file dropped into media ops
+	! single file dropped into post ops
+	! single file dropped into restore deliver
+
+	tomorrow will test multiple file drops.
+	manual decryption will not push out an email.
+	
+	encrypting single files is working, i have encrypted several files, particularly from job 365780
+
+
+	So files can be created before folders
+	Add email for duplicates on submission, I also added a file that was in a folder, but the file was in the outpath, so the job would never have completed.
+	HANDLING BATCH FOLDERS WHEN THERE IS A DUPLICATE IN THE CHAIN
+	FOLDERS THAT HAVE NO AM DATA WILL SIT IN BOX UNTIL RESOLUTION.
+
+	If a file that gets processed has no daisy metadata associated with it, it get kicked back to the error box with an email
+	If processing a batch file, and no daisy metadata data is found for the file, then the file gets reported as having an inaccurate checksum, and email is generated
+
+	adding a folder which his missing a file and has one bad file
+	need to add a timeout

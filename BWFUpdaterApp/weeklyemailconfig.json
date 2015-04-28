@@ -1,0 +1,5 @@
+{"dataBasePath": "O:\\BWAV_FIX\\DATA\\bwf_database.db",
+"emailRecipients":["patrickcusack@mac.com"],
+"_emailRecipients":["bwfanalyzer@gmail.com", "mediaMQM@nbcuni.com", "john.edell@nbcuni.com", "Joel.Halvorson@nbcuni.com"],
+"serviceErrorRecipients":["patrickcusack@mac.com","mediaMQM@nbcuni.com"],
+"smtpServer":"mailrelay.nbcuni.ge.com"}

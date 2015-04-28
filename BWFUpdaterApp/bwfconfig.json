@@ -1,0 +1,13 @@
+{"logPath": "~/mediasealwatch",
+"dataBasePath": "~/mediasealwatch",
+"emailRecipients":["patrickcusack@mac.com"],
+"serviceErrorRecipients":["patrickcusack@mac.com"],
+"smtpServer":"mailrelay.nbcuni.ge.com",
+"pathStructure":[
+  {"inBox":"~/Documents/BWFTest/inBox", 
+  "outBox":"~/Documents/BWFTest/outBox",
+  "errorBox":"~/Documents/BWFTest/errorBox",
+  "failBox":"~/Documents/BWFTest/failBox", 
+  "workingBox":"~/Documents/BWFTest/working",
+  "name":"BWFPath"}
+]}

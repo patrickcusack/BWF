@@ -1,0 +1,25 @@
+so it appears that when I change a file's DGDA chunk, protools doesn't change the way it imports the file
+I have a file that is internally layed out with a L,C,R,Ls,BM,Rs, but Protools displays it as L,R,C,B,LS,RS 
+removed regn
+
+5/2013
+
+Identify
+Channel Configuration SMPTE
+Sample Rate
+BitDepth
+2 POP 00:59:58:00
+
+Phase 2
+7.1
+Examine Sub For Full Frequency
+
+Phase 3 
+Fixing Errors
+
+
+Does file start at 00:57:30:00?
+	If so, is there tones at 00:58:30:00
+else:
+	see if there is a tone at 00:58:30:00
+	

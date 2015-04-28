@@ -1,0 +1,16 @@
+in DataStore, create a job class which I can then pass back to to the all ofthe processes
+
+key_id = record[0]
+filePath = record[1]
+recordSize = int(record[2])
+dateModifiedString = record[6]
+pathStructureName = record[18]
+
+also grab records of type instead of staus
+
+
+Clean up mainprocess.py
+
+xml
+
+handle source files for missing destination files

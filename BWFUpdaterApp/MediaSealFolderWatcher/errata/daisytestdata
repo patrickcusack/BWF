@@ -1,0 +1,90 @@
+{
+  "location" : null,
+  "packages" : [ {
+    "packageId" : "PKG668268",
+    "packageType" : "Master Package",
+    "frameRate" : "23.98"
+  } ],
+  "contentType" : "Full Feature",
+  "children" : [ "DA000446209", "DA000446232", "DA000446255", "DA000446186", "DA000446278", "DA000446301", "DA000446324" ],
+  "title" : "FLYING MISFITS Television (31359) 93 min 1976",
+  "status" : "Available",
+  "createDate" : 1384907718000,
+  "trackingId" : "DA000446098",
+  "productionNumber" : "31359",
+  "originalPONumber" : "69350-1",
+  "primaryLanguage" : "English",
+  "storageCategory" : "Archive DR",
+  "setId" : null,
+  "dueDate" : 1387526400000,
+  "assetCategory" : "audiovideo",
+  "assetType" : "Asset",
+  "assetFiles" : [ {
+    "status" : "Available",
+    "createDate" : null,
+    "trackingId" : null,
+    "fileExtension" : "MXF File Extension",
+    "fileFormat" : "Blank",
+    "fileSize" : "61 GB",
+    "encryptedType" : "",
+    "fileLocation" : "FPD ARCHIVE",
+    "filename" : "DA000446098_31359_FTR_133_SM_ENG_01.mxf",
+    "checksum" : "f8d12eae3dc24470efb636fb05988418",
+    "fileSizeDetails" : "66367508319"
+  }, {
+    "status" : "Available",
+    "createDate" : null,
+    "trackingId" : null,
+    "fileExtension" : "MXF File Extension",
+    "fileFormat" : "Blank",
+    "fileSize" : "3 GB",
+    "encryptedType" : "",
+    "fileLocation" : "FPD ARCHIVE",
+    "filename" : "DA000446098_31359_FTR_133_SM_ENG_audio_01.mxf",
+    "checksum" : "3700f62637352174fa38103eb66a6bf7",
+    "fileSizeDetails" : "3621139270"
+  } ],
+  "audioBitDepth" : "Blank",
+  "videoFormat" : "Side Matted",
+  "audioCodec" : "Linear Pulse Code Modulation",
+  "displayAspectRatio" : "16x9",
+  "frameRate" : "23.98",
+  "aspectRatio" : "1.33:1",
+  "videoScanType" : "progressive",
+  "audioFormat" : "Audio Format N/A",
+  "sampleRate" : "48 kHz",
+  "texted" : "Texted",
+  "videoCodec" : "JPEG 2000",
+  "runTime" : "01:37:51",
+  "channelCapacity" : "4",
+  "vendor" : "Universal Digital Servic",
+  "mediaAssetLevel" : "Archival J2K File",
+  "closedCaptionType" : "Unmatched",
+  "closedCaptionLanguage" : "Unmatched",
+  "externalLink" : "http://daisy.inbcu.com/daisy/app/assetLink?barcode=DA000446098",
+  "standard" : "HD",
+  "contentItems" : null,
+  "subtitles" : [ ],
+  "audioChannels" : [ {
+    "channelNumber" : "1",
+    "channelConfiguration" : "Mono Combine +12db",
+    "channelLanguage" : "English"
+  }, {
+    "channelNumber" : "2",
+    "channelConfiguration" : "Mono Combine +12db",
+    "channelLanguage" : "English"
+  }, {
+    "channelNumber" : "3",
+    "channelConfiguration" : "Mono M&E +12db",
+    "channelLanguage" : "Not Applicable"
+  }, {
+    "channelNumber" : "4",
+    "channelConfiguration" : "Mono M&E +12db",
+    "channelLanguage" : "Not Applicable"
+  } ],
+  "textedLanguage" : null,
+  "timecodeType" : "23.98",
+  "parentTrackingId" : "TEMP000032593",
+  "videoBitrate" : "500 Mbit/s",
+  "assetCollection" : "N/A"
+}

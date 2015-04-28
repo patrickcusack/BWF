@@ -1,0 +1,396 @@
+# def smallSampleSize():
+
+#     try:
+#         filePath = sys.argv[1]
+#         if os.path.exists(filePath):
+#             wavefile = PCWaveFile(filePath)
+
+#             if wavefile.isValidWaveFile() != True:
+#                 print "File is not a wave file"
+#                 return
+
+#             dataStartPos = wavefile.getDataChunk()["chunkPosition"]
+#             dataLength = wavefile.getDataChunk()["chunkSize"]
+#             sampleRate = wavefile.numberOfSamplesPerSecond()
+#             timeCodeSampleRate = int(sampleRate *  1.001)
+#             byteWidth = wavefile.numberOfBytesPerSample()
+#             numberOfChannels = wavefile.numberOfChannels()
+
+#             frameNumber = 0
+#             print datetime.datetime.now()
+#             with open(filePath, 'rb') as f:
+#                 startTime = datetime.datetime.now()
+#                 f.seek(dataStartPos)
+#                 data_size = int((sampleRate * 1.001) / 24) #1 frame of audio at 23.98 or 48048 sample rate
+
+#                 dataToReadChunkSize = data_size*byteWidth
+#                 #examine 160 seconds of data
+#                 dataRemaining = (160*timeCodeSampleRate)*byteWidth*numberOfChannels #dataLength
+               
+#                 while dataRemaining > 0:
+#                     if dataRemaining > dataToReadChunkSize:
+#                         data = f.read(dataToReadChunkSize)
+#                     else:
+#                         data = f.read(dataRemaining)
+
+#                     dataRemaining -= len(data)
+
+#                     print pctimecode.convertUnsignedLongLongToTimeCode(wavefile.timestamp + (frameNumber * data_size), timeCodeSampleRate, 24)
+#                     frameNumber += 1
+
+#                     for channel in range(0, numberOfChannels):
+#                         subdata = ""
+#                         for x in range(channel*byteWidth,len(data),byteWidth*numberOfChannels):
+#                             # subdata.extend(data[x:x+3])
+#                             subdata += (data[x] + data[x+1] + data[x+2])
+
+#                         print ultimateFreqAndPowerForData(subdata, byteWidth, sampleRate)
+
+#             print datetime.datetime.now()
+#         else:
+#             print "The file",filename,"doesn't exist"
+#     except IndexError as e:
+#         print "No file was passed in as a variable"     
+
+# def findTwoPop():
+#     try:
+#         filePath = sys.argv[1]
+#         if os.path.exists(filePath):
+#             wavefile = PCWaveFile(filePath)
+
+#             if wavefile.isValidWaveFile() != True:
+#                 print "File is not a wave file"
+#                 return
+
+#             dataStartPos = wavefile.getDataChunk()["chunkPosition"]
+#             dataLength = wavefile.getDataChunk()["chunkSize"]
+#             sampleRate = wavefile.numberOfSamplesPerSecond()
+#             byteWidth = wavefile.numberOfBytesPerSample()
+#             numberOfChannels = wavefile.numberOfChannels()
+
+#             with open(filePath, 'rb') as f:
+#                 startTime = datetime.datetime.now()
+#                 #1 frame of audio at 23.98 or 48048 sample rate
+#                 data_size = 2002
+#                 #position at which to examine
+#                 startOffset = int(round(sampleRate * 1.001)) * 148 * byteWidth * numberOfChannels
+#                 startOffset -= (data_size * byteWidth * numberOfChannels * 2)
+#                 dataStartPos = dataStartPos + startOffset
+#                 f.seek(dataStartPos)
+
+#                 if dataStartPos > dataLength:
+#                     print "file is too short to analyze"
+#                     return
+
+#                 dataToReadChunkSize = data_size*byteWidth*numberOfChannels
+#                 dataRemaining = data_size*byteWidth*numberOfChannels*6
+
+#                 while dataRemaining > 0:
+#                     data = f.read(dataToReadChunkSize)
+#                     dataRemaining -= dataToReadChunkSize
+#                     print "Next Sample"
+#                     for channel in range(0, numberOfChannels):
+#                         subdata = ""
+#                         for x in range(channel*byteWidth,len(data),byteWidth*numberOfChannels):
+#                             # subdata.extend(data[x:x+3])
+#                             subdata += (data[x] + data[x+1] + data[x+2])
+
+#                         result =  ultimateFreqAndPowerForData(subdata, byteWidth, sampleRate)
+#                         print result
+#                         if math.isnan(result["mainFreq"]["freqHz"]) or result["mainFreq"]["dbRep"] < -65.0:
+#                             print '\tDisregard', result["mainFreq"]["freqHz"], result["mainFreq"]["dbRep"]
+#                         elif result["mainFreq"]["freqHz"] < 1005 and result["mainFreq"]["freqHz"] > 995:
+#                             print '\tMatch', result["mainFreq"]["freqHz"], result["mainFreq"]["dbRep"]
+#                         else:
+#                             print '\tOops', result["mainFreq"][freqHz], result["mainFreq"]["dbRep"]
+
+
+#         else:
+#             print "The file",filename,"doesn't exist"
+#     except IndexError as e:
+#         print "No file was passed in as a variable"                
+
+# def analyzeTwoPop(filePath):
+
+#     if os.path.exists(filePath):
+#         wavefile = PCWaveFile(filePath)
+#         if wavefile.isValidWaveFile() != True:
+#             return {"status":"fail", "resultString":"file is not a wavefile"}  
+
+#         dataStartPos = wavefile.getDataChunk()["chunkPosition"]
+#         dataLength = wavefile.getDataChunk()["chunkSize"]
+#         sampleRate = wavefile.numberOfSamplesPerSecond()
+#         byteWidth = wavefile.numberOfBytesPerSample()
+#         numberOfChannels = wavefile.numberOfChannels()
+#         timeCodeSampleRate = int(math.ceil(round(sampleRate * 1.001)))
+#         data_size = timeCodeSampleRate/24
+
+#         with open(filePath, 'rb') as f:
+            
+#             #position at which to examine, in this case, we are going to examine the pop alone
+#             timeStampLocationOfHeadStart = wavefile.timestamp
+
+#             #assume file starts at 00:57:30:00, in the case that the file doesn't have a bext extension
+#             if wavefile.timestamp == 0: 
+#                 timeStampLocationOfHeadStart = pctimecode.convertTimeCodeToUnsignedLongLong("00:57:30:00", timeCodeSampleRate, 24)
+
+#             timeStampLocationOfPop = pctimecode.convertTimeCodeToUnsignedLongLong("00:59:58:00", timeCodeSampleRate, 24)
+
+#             if timeStampLocationOfHeadStart > timeStampLocationOfPop:
+#                 return {"status":"fail", "resultString":"timecode start exceeds pop location"}
+
+#             timeStampOfPopInFile = timeStampLocationOfPop - timeStampLocationOfHeadStart
+#             startOffset = timeStampOfPopInFile * byteWidth * numberOfChannels
+#             dataStartPos += startOffset
+#             f.seek(dataStartPos)
+
+#             if dataStartPos > dataLength:
+#                 return {"status":"fail", "resultString":"file is too short"} 
+
+#             #lets look over 6 frames
+#             dataToReadChunkSize = data_size*byteWidth*numberOfChannels
+#             dataRemaining       = data_size*byteWidth*numberOfChannels
+
+#             twoPopCounter = TwoPopCounter()
+
+#             while dataRemaining > 0:
+#                 data = f.read(dataToReadChunkSize)
+#                 dataRemaining -= dataToReadChunkSize
+#                 for channel in range(0, numberOfChannels):
+#                     subdata = ""
+#                     for x in range(channel*byteWidth,len(data),byteWidth*numberOfChannels):
+#                         subdata += (data[x] + data[x+1] + data[x+2])
+#                     twoPopCounter.addAnalysisForChannel(ultimateFreqAndPowerForData(subdata, byteWidth, sampleRate), channel)
+
+#             return twoPopCounter.result()
+
+#     else:
+#         return {"status":"fail", "resultString":"file doesn't exist"}    
+
+# def analyzeHead(filePath):
+
+#     if os.path.exists(filePath):
+#         wavefile = PCWaveFile(filePath)
+
+#         if wavefile.isValidWaveFile() != True:
+#             return {"status":"fail", "resultString":"file is not a wavefile"} 
+
+#         dataStartPos = wavefile.getDataChunk()["chunkPosition"]
+#         dataLength = wavefile.getDataChunk()["chunkSize"]
+#         sampleRate = wavefile.numberOfSamplesPerSecond()
+#         timeCodeSampleRate = int(math.ceil(sampleRate * 1.001))
+#         byteWidth = wavefile.numberOfBytesPerSample()
+#         numberOfChannels = wavefile.numberOfChannels()
+#         data_size = int(math.ceil(sampleRate * 1.001)) #1 second of audio
+#         dataStartPosOffset = 0
+#         normalizedTimeStamp = wavefile.timestamp #
+
+#         # print "dataStartPosOffset",dataStartPosOffset
+
+#         toneStartTimeStamp = pctimecode.convertTimeCodeToUnsignedLongLong("00:57:30:00", timeCodeSampleRate, 24)
+#         # print "toneStartTimeStamp",toneStartTimeStamp
+
+#         #assume file starts at 00:57:30:00, in the case that the file doesn't have a bext extension
+#         #also gets into an issue of what to favor, bext over regn? I assume that the encoders user bext
+#         #as you couldn't reliably expect a regn chunk
+#         if normalizedTimeStamp == 0: 
+#             normalizedTimeStamp = toneStartTimeStamp
+
+#         #the head length should be 150 seconds
+#         secondsInSamplesToRead = 150 * timeCodeSampleRate
+#         # print "secondsInSamplesToRead",secondsInSamplesToRead
+
+#         #make sure that the timestamp starts on the second, otherwise normalize the timestamp
+#         normalizedTimestampOffset = wavefile.timestamp % timeCodeSampleRate
+#         if normalizedTimestampOffset > 0:
+#             dataStartPosOffset += (timeCodeSampleRate - normalizedTimestampOffset) * byteWidth * numberOfChannels
+#             normalizedTimeStamp = wavefile.timestamp + (timeCodeSampleRate - normalizedTimestampOffset)
+
+#         # print "(timeCodeSampleRate - normalizedTimestampOffset)", (timeCodeSampleRate - normalizedTimestampOffset)
+#         # print "normalizedTimestampOffset", normalizedTimestampOffset
+#         # print "dataStartPosOffset", dataStartPosOffset
+#         # print "normalizedTimeStamp", normalizedTimeStamp
+
+#         if normalizedTimeStamp > toneStartTimeStamp:
+#             # print 'if wavefile.timestamp > toneStartTimeStamp:'
+#             secondsInSamplesToRead -= (normalizedTimeStamp - toneStartTimeStamp)
+        
+#         if normalizedTimeStamp < toneStartTimeStamp:
+#             # print 'if wavefile.timestamp < toneStartTimeStamp:'
+#             secondsInSamplesToRead += (toneStartTimeStamp - normalizedTimeStamp)
+
+#         #lets only look at the first 150 seconds of the file
+#         sizeToRead = secondsInSamplesToRead * byteWidth * numberOfChannels
+#         sizeToRead = sizeToRead if dataLength > sizeToRead else dataLength
+#         # print "sizeToRead",sizeToRead
+
+#         second = 0
+#         with open(filePath, 'rb') as f:
+#             startTime = datetime.datetime.now()
+#             dataStartPos += dataStartPosOffset
+#             f.seek(dataStartPos)
+
+#             dataToReadChunkSize = timeCodeSampleRate*byteWidth*numberOfChannels
+#             dataRemaining = sizeToRead
+           
+#             counterDict = {}
+#             for channel in range(0, numberOfChannels):
+#                 counterDict[str(channel)] = ToneCounter()
+
+#             while dataRemaining > 0:
+#                 if dataRemaining > dataToReadChunkSize:
+#                     data = f.read(dataToReadChunkSize)
+#                 else:
+#                     data = f.read(dataRemaining)
+#                 dataRemaining -= len(data)
+
+#                 currentPositionInFile = normalizedTimeStamp + (second * data_size)
+#                 # print currentPositionInFile, pctimecode.convertUnsignedLongLongToTimeCode(currentPositionInFile, 48048, 24)
+
+#                 for channel in range(0, numberOfChannels):
+#                     subdata = ""
+#                     for x in range(channel*byteWidth,len(data),byteWidth*numberOfChannels):
+#                         subdata += (data[x] + data[x+1] + data[x+2])
+#                     result = highestAndNextHighestFreqAndPowerForData(subdata, byteWidth, sampleRate)
+#                     toneCounter = counterDict[str(channel)]
+#                     toneCounter.addAnalysis({
+#                         "currentTimeStamp":currentPositionInFile, 
+#                         "timeCodeSampleRate":timeCodeSampleRate,
+#                         "freqs":result,
+#                         "RMSForInputData":calculateRMSForData(subdata, byteWidth)})
+
+#                 second += 1
+
+#         #Questions to answer 1) Does it have at least 60 secs of tone 2) Does it start at head 3) Does it have a Pop 4) Does it have other tones?
+#         toneCounterResult = ToneCounterResult(timeCodeSampleRate, 24)
+#         return toneCounterResult.result(counterDict)
+#     else:
+#         return {"status":"fail", "resultString":"file doesn't exist"} 
+
+# def main():
+    
+#     try:
+#         filePath = sys.argv[1]
+#         if os.path.exists(filePath):
+#             wavefile = PCWaveFile(filePath)
+
+#             if wavefile.isValidWaveFile() != True:
+#                 print "File is not a wave file"
+#                 return
+
+#             dataStartPos = wavefile.getDataChunk()["chunkPosition"]
+#             dataLength = wavefile.getDataChunk()["chunkSize"]
+#             sampleRate = wavefile.numberOfSamplesPerSecond()
+#             timeCodeSampleRate = int(math.ceil(sampleRate * 1.001))
+#             byteWidth = wavefile.numberOfBytesPerSample()
+#             numberOfChannels = wavefile.numberOfChannels()
+#             data_size = int(math.ceil(sampleRate * 1.001)) #1 second of audio
+
+#             #lets only look at the first 150 seconds of the file
+#             sizeToRead = 150 * timeCodeSampleRate * byteWidth * numberOfChannels
+#             sizeToRead = sizeToRead if dataLength > sizeToRead else dataLength
+
+#             second = 0
+#             with open(filePath, 'rb') as f:
+#                 startTime = datetime.datetime.now()
+#                 f.seek(dataStartPos)
+
+#                 dataToReadChunkSize = sampleRate*byteWidth*numberOfChannels
+#                 dataRemaining = sizeToRead
+               
+#                 counterDict = {}
+#                 for channel in range(0, numberOfChannels):
+#                     counterDict[str(channel)] = ToneCounter()
+
+#                 while dataRemaining > 0:
+#                     if dataRemaining > dataToReadChunkSize:
+#                         data = f.read(dataToReadChunkSize)
+#                     else:
+#                         data = f.read(dataRemaining)
+#                     dataRemaining -= len(data)
+
+#                     currentPositionInFile = wavefile.timestamp + (second * data_size)
+#                     # print pctimecode.convertUnsignedLongLongToTimeCode(currentPositionInFile, timeCodeSampleRate, 24)
+
+#                     for channel in range(0, numberOfChannels):
+#                         subdata = ""
+#                         for x in range(channel*byteWidth,len(data),byteWidth*numberOfChannels):
+#                             subdata += (data[x] + data[x+1] + data[x+2])
+#                         result = highestAndNextHighestFreqAndPowerForData(subdata, byteWidth, sampleRate)
+#                         toneCounter = counterDict[str(channel)]
+#                         toneCounter.addAnalysis({
+#                             "currentTimeStamp":currentPositionInFile, 
+#                             "timeCodeSampleRate":timeCodeSampleRate,
+#                             "freqs":result,
+#                             "RMSForInputData":calculateRMSForData(subdata, byteWidth)})
+
+#                     second += 1
+
+#             #Questions to answer 1) Does it have at least 60 secs of tone 2) Does it start at head 3) Does it have a Pop 4) Does it have other tones?
+
+#             toneCounterResult = ToneCounterResult(timeCodeSampleRate, 24)
+#             toneCounterResult.analyze(counterDict)
+
+
+#         else:
+#             print "The file",filename,"doesn't exist"
+#     except IndexError as e:
+#         print "No file was passed in as a variable" 
+
+# def popTest():
+
+#     filePath = None
+#     try:
+#         filePath = sys.argv[1]
+#     except Exception:
+#         print "No file specified"
+#         return
+
+#     if os.path.isdir(filePath):
+#         for path, dirs, files in os.walk(filePath):
+#             for name in files:
+#                 fullpath = os.path.join(path, name)
+#                 print fullpath
+#                 print analyzeTwoPop(fullpath)
+#     else:
+#         print analyzeTwoPop(filePath)
+
+# def headTest():
+
+#     filePath = None
+#     try:
+#         filePath = sys.argv[1]
+#     except Exception:
+#         print "No file specified"
+#         return
+
+#     if os.path.isdir(filePath):
+#         for path, dirs, files in os.walk(filePath):
+#             for name in files:
+#                 fullpath = os.path.join(path, name)
+#                 print fullpath
+#                 print analyzeHead(fullpath)
+#     else:
+#         print analyzeHead(filePath)
+
+# def popAndToneTest():
+
+#     filePath = None
+#     try:
+#         filePath = sys.argv[1]
+#     except Exception:
+#         print "No file specified"
+#         return
+
+#     if os.path.isdir(filePath):
+#         for path, dirs, files in os.walk(filePath):
+#             for name in files:
+#                 fullpath = os.path.join(path, name)
+#                 print fullpath
+#                 print analyzeTwoPop(fullpath)
+#                 print analyzeHead(fullpath)
+#     else:
+#         print analyzeTwoPop(filePath)
+#         print analyzeHead(filePath)
+
+#ALT
